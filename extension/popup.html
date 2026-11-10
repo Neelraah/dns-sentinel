@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="style.css"><title>DNS Sentinel</title></head>
+<body class="popup">
+  <header class="brand"><div class="brand-mark">✳</div><div><b>DNS Sentinel</b><small>WEB THREAT OBSERVER</small></div><span class="live-dot"></span></header>
+  <main>
+    <section class="site-card">
+      <div class="eyebrow">CURRENT TAB</div><h2 id="site">Checking website…</h2><p id="url" class="muted"></p>
+      <div class="site-status"><span class="status-pill" id="siteStatus">OBSERVING</span><span class="muted" id="serviceStatus">Checking local agent…</span></div>
+    </section>
+    <div class="metric-grid">
+      <div class="metric"><span>Events captured</span><strong id="events">—</strong></div>
+      <div class="metric"><span>DNS queries</span><strong id="dns">—</strong></div>
+    </div>
+    <section class="action-card">
+      <div class="eyebrow">QUICK ACTIONS</div>
+      <button class="btn btn-primary" id="dashboard">Open security dashboard <span>↗</span></button>
+      <button class="btn btn-secondary" id="diagnostics">Run DNS diagnostics <span>⌁</span></button>
+      <p class="hint" id="feedback">Local agent required for live DNS telemetry.</p>
+    </section>
+    <footer>Private by design · Local-first monitoring</footer>
+  </main>
+<script src="popup.js"></script></body></html>

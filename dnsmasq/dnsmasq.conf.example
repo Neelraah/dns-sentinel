@@ -1,0 +1,15 @@
+# EXAMPLE ONLY — review before installing.
+# Bind dnsmasq to a dedicated lab interface / loopback. Do not expose as an open resolver.
+port=5353
+listen-address=127.0.0.1
+bind-interfaces
+no-resolv
+server=1.1.1.1
+server=9.9.9.9
+log-queries
+log-facility=./dnsmasq.log
+
+# Lab-only sinkhole example:
+# address=/bad-domain.test/127.0.0.1
+# address=/c2-lab.example/127.0.0.1
+# The decoy HTTP listener must be reachable at the returned sinkhole IP/port.

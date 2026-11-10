@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    command: python app.py
+    ports: ["127.0.0.1:8765:8765"]
+    volumes: ["./:/app"]
+    restart: unless-stopped
+  honeypot:
+    build: .
+    command: python honeypot.py
+    ports: ["127.0.0.1:8080:8080"]
+    volumes: ["./:/app"]
+    restart: unless-stopped

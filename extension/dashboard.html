@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNS Sentinel | Command Center</title><link rel="stylesheet" href="style.css"></head>
+<body class="dashboard">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">✳</div><div><b>DNS Sentinel</b><small>SECURITY CONSOLE</small></div></div>
+  <div class="nav-label">MONITORING</div><a class="nav active" href="#overview">◫ &nbsp; Overview</a><a class="nav" href="#events">⌁ &nbsp; Event stream</a><a class="nav" href="#dns-tools">◎ &nbsp; DNS tools</a>
+  <div class="sidebar-bottom"><div class="agent-indicator"><span class="live-dot"></span><div><b id="agentLabel">Connecting…</b><small>LOCAL AGENT</small></div></div><small class="muted">v1.0.0 · Local-first</small></div>
+</aside>
+<main class="main">
+  <div class="topbar"><div><div class="eyebrow">THREAT INTELLIGENCE / OVERVIEW</div><h1>Security command center</h1><p class="muted">A live view of suspicious browser activity and DNS sinkhole telemetry.</p></div><button class="btn btn-dark" id="refresh">↻ Refresh data</button></div>
+  <section class="hero-strip"><div><span class="eyebrow">PROTECTION STATUS</span><h2 id="protection">Waiting for local agent</h2><p id="protectionText">Connect the local service to begin collecting telemetry.</p></div><div class="hero-symbol">✳</div></section>
+  <section class="metrics">
+    <article class="metric-card"><span>Total captured events</span><strong id="total">—</strong><small>Browser + honeypot observations</small></article>
+    <article class="metric-card"><span>Unique source IPs</span><strong id="ips">—</strong><small>Observed by honeypot listener</small></article>
+    <article class="metric-card"><span>DNS queries logged</span><strong id="queries">—</strong><small>dnsmasq query log</small></article>
+    <article class="metric-card yellow-card"><span>High-signal events</span><strong id="high">—</strong><small>Rule-based classification</small></article>
+  </section>
+  <section class="panel-grid">
+    <article class="panel wide"><div class="panel-head"><div><h3>Activity timeline</h3><p class="muted">Events grouped by hour</p></div><span class="tag">LAST 24H</span></div><div id="timeline" class="bars"><div class="empty">No events available yet</div></div></article>
+    <article class="panel"><div class="panel-head"><div><h3>Event categories</h3><p class="muted">Rule-based signals</p></div></div><div id="categories" class="category-list"><div class="empty">Waiting for events</div></div></article>
+  </section>
+  <section class="panel" id="events"><div class="panel-head"><div><h3>Recent activity</h3><p class="muted">Latest observed requests. Payloads are never executed.</p></div><span class="tag">LIVE FEED</span></div><div class="table-wrap"><table><thead><tr><th>TIME</th><th>HOST / SOURCE</th><th>REQUEST</th><th>CLASSIFICATION</th><th>SEVERITY</th></tr></thead><tbody id="eventRows"><tr><td colspan="5" class="empty">No events captured.</td></tr></tbody></table></div></section>
+  <section class="panel" id="dns-tools"><div class="panel-head"><div><h3>DNS diagnostics</h3><p class="muted">Use nslookup and curl through the isolated local agent.</p></div><span class="tag">TOOLKIT</span></div>
+    <div class="tool-row"><input id="domainInput" placeholder="example.com" value="example.com"><button class="btn btn-primary" id="runDiag">Run diagnostics</button></div>
+    <pre id="diagOutput" class="terminal">Ready. Enter a domain to inspect DNS resolution and HTTP reachability.</pre>
+    <p class="hint">Diagnostics perform DNS lookup and a bounded HTTP HEAD request. They do not exploit or modify the target website.</p>
+  </section>
+  <footer class="main-footer">DNS Sentinel · Defensive research tooling · All telemetry remains on this device by default.</footer>
+</main><script src="dashboard.js"></script></body></html>
