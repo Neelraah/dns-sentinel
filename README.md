@@ -4,8 +4,8 @@ A local-first defensive research project combining a Chromium extension, a Pytho
 
 ## What it does
 
-- Observes browser requests for a small set of suspicious URL patterns (e.g. exposed `.env`, `/wp-login`, traversal patterns).
-- Sends matching metadata to a local-only API at `127.0.0.1:8765`.
+- Observes completed and failed HTTP(S) requests across Chrome tabs, including main-frame and subresource traffic.
+- Sends privacy-minimized request metadata to a local-only API at `127.0.0.1:8765`; URL query strings and fragments are not collected.
 - Runs `nslookup` and bounded `curl -I` diagnostics for a domain entered by the operator.
 - Hosts a harmless HTTP decoy on `127.0.0.1:8080`; it records method, source IP, path, user-agent and timestamp. It never executes request bodies or downloaded files.
 - Displays events, classifications and a timeline in a lavender/yellow dashboard.
@@ -88,7 +88,7 @@ bash scripts/test_lab.sh
 .\scripts\test_lab.ps1
 ```
 
-Then refresh the dashboard. A request to `/wp-login.php` should appear as a credential-probing event.
+Then refresh the dashboard. A request to `/wp-login.php` and ordinary page/resource requests should appear as browser telemetry events. Suspicious classification is a separate detection stage.
 
 ## 4. Optional dnsmasq lab configuration
 
@@ -156,3 +156,25 @@ dns-sentinel-extension/
 ## Suggested GitHub repository description
 
 DNS Sentinel is a local-first DNS honeypot and browser threat-observation extension built with Manifest V3, Python/Flask, dnsmasq, nslookup and curl. It captures suspicious request metadata, supports controlled DNS sinkhole experiments and visualizes activity in a lavender-and-yellow security dashboard.
+
+
+## Step 1 — browser telemetry upgrade (v1.1.0)
+
+The extension now records Chrome-visible HTTP(S) request metadata:
+- Completed requests and failed requests.
+- Main-frame navigations and subresources (scripts, stylesheets, images, XHR/fetch, etc.).
+- Hostname, path without query string, method, resource type, initiator, tab/frame IDs and timestamp.
+- A bounded local retry queue (`chrome.storage.local`) with periodic retry.
+
+### Apply the update
+1. Start the local API from `agent/` using `python app.py`.
+2. Open `chrome://extensions` and press **Reload** on DNS Sentinel.
+3. If Chrome reports changed permissions, approve them or remove and load the updated `extension/` folder again.
+4. Browse ordinary HTTP(S) websites and inspect the dashboard event list.
+
+### Step 1 limitations
+- This is browser HTTP(S) request telemetry, not packet capture or a complete DNS query feed.
+- Chrome internal pages, non-HTTP protocols and some browser-managed activity are outside this observer.
+- Redirect chains can produce multiple request events.
+- Query strings, fragments, cookies, page text, form fields and request/response bodies are not collected.
+- The existing dashboard still uses its earlier polling and heuristic display. Live streaming and a separate threat-alert pipeline are later phases.

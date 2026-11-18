@@ -43,7 +43,7 @@ def events():
 @app.post("/api/events")
 def ingest():
     data=request.get_json(silent=True) or {}
-    allowed={"timestamp","hostname","path","method","type","tabId","source","severity","ip","domain","category","agent"}
+    allowed={"event_id","timestamp","hostname","path","method","type","tabId","tab_id","frame_id","parent_frame_id","request_id","source","severity","ip","domain","category","agent","scheme","initiator","outcome","status_code","error","duration_ms"}
     clean={k:v for k,v in data.items() if k in allowed and isinstance(v,(str,int,float))}
     if not clean: return jsonify(error="No valid event fields"),400
     write_event(clean)
